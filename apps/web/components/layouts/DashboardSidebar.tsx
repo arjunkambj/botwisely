@@ -54,10 +54,9 @@ const Sidebar = React.memo(({ className }: { className?: string }) => {
     [handleClose]
   );
 
+  // Drawer acts as a simple container; visual styles live inside SidebarContent
   const drawerClasses = useMemo(
-    () =>
-      // Match Settings drawer styling: solid surface, subtle border, no shadow padding
-      "max-w-[280px] w-[280px] bg-content1 border-r border-default-100 shadow-none p-0",
+    () => "max-w-[280px] shadow-none bg-transparent p-0",
     []
   );
   const sectionClasses = useMemo(

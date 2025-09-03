@@ -27,7 +27,7 @@ const SidebarContent = React.memo(({ onClose }: SidebarContentProps) => {
     () =>
       `relative flex h-full max-w-[280px] flex-1 flex-col bg-content2 transition-all duration-300 ease-in-out ${
         isOpen
-          ? "w-[280px] p-6 opacity-100 overflow-visible"
+          ? "w-[280px] p-6 opacity-100 overflow-hidden"
           : "w-0 p-0 opacity-0 overflow-hidden"
       }`,
     [isOpen]
@@ -47,7 +47,7 @@ const SidebarContent = React.memo(({ onClose }: SidebarContentProps) => {
 
   const logoSection = useMemo(
     () => (
-      <div className="flex items-center justify-between px-2 py-2">
+      <div className="flex items-center justify-between px-3 py-2">
         <Logo />
         {/* Close button - only visible on mobile */}
         <Button
@@ -70,7 +70,7 @@ const SidebarContent = React.memo(({ onClose }: SidebarContentProps) => {
       <Link
         aria-current={pathname === "/overview" ? "page" : undefined}
         className={cn(
-          "flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 min-h-9 ml-2",
+          "flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 min-h-9",
           "no-underline w-full mb-2",
           pathname === "/overview"
             ? "bg-primary text-white font-medium shadow-sm"

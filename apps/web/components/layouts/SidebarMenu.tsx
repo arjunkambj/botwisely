@@ -44,7 +44,7 @@ const SidebarMenu = ({ items, className }: SidebarMenuProps) => {
         key={item.key}
         aria-current={isActive(item.href || "") ? "page" : undefined}
         className={cn(
-          "flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 min-h-9 ml-2",
+          "flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 min-h-9",
           "no-underline",
           isActive(item.href || "")
             ? "bg-primary text-white font-medium shadow-sm"
