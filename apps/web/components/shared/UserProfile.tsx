@@ -10,7 +10,6 @@ import {
 } from "@heroui/react";
 import { Icon } from "@iconify/react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
 import React, { useCallback } from "react";
 import { useAuth } from "@clerk/nextjs";
 import { useUser } from "@clerk/nextjs";
@@ -37,12 +36,11 @@ const navigationItems = [
 ];
 
 const UserProfile = React.memo(() => {
-  const router = useRouter();
   const { signOut } = useAuth();
   const { user } = useUser();
   const handleLogout = useCallback(async () => {
     signOut();
-  }, [router]);
+  }, [signOut]);
 
   return (
     <Dropdown placement="bottom-end">

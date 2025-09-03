@@ -18,4 +18,9 @@
       "persistent": true
     }
   }
+  ,
+  "globalEnv": [
+    "CLERK_JWT_ISSUER_DOMAIN",
+    "NEXT_PUBLIC_CONVEX_URL"
+  ]
 }

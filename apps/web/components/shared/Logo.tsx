@@ -1,8 +1,5 @@
 "use client";
-
-import Image from "next/image";
-import { useTheme } from "next-themes";
-import { useEffect, useState } from "react";
+import React from "react";
 import Link from "next/link";
 
 interface LogoProps {
@@ -12,11 +9,12 @@ interface LogoProps {
   className?: string;
 }
 
-const SIZES = {
-  sm: { full: { width: 100, height: 30 }, icon: { width: 30, height: 30 } },
-  md: { full: { width: 120, height: 36 }, icon: { width: 36, height: 36 } },
-  lg: { full: { width: 150, height: 45 }, icon: { width: 45, height: 45 } },
-} as const;
+// Reserved for future image-based logo sizing
+// const SIZES = {
+//   sm: { full: { width: 100, height: 30 }, icon: { width: 30, height: 30 } },
+//   md: { full: { width: 120, height: 36 }, icon: { width: 36, height: 36 } },
+//   lg: { full: { width: 150, height: 45 }, icon: { width: 45, height: 45 } },
+// } as const;
 
 const TEXT_SIZES = {
   sm: "text-lg",
@@ -36,18 +34,7 @@ export function Logo({
   spacing = "md",
   className = "",
 }: LogoProps) {
-  const { resolvedTheme } = useTheme();
-  const [mounted, setMounted] = useState(false);
-  const { width, height } = SIZES[size][variant];
-
-  // Prevent hydration mismatch
-  useEffect(() => {
-    setMounted(true);
-  }, []);
-
-  // Use fallback during hydration
-  const logoSrc =
-    mounted && resolvedTheme === "dark" ? "/logo-white.svg" : "/logo-black.svg";
+  // const { width, height } = SIZES[size][variant];
 
   return (
     <div className={`inline-flex items-center ${className}`}>

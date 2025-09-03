@@ -36,13 +36,6 @@
 - Clerk: global `ClerkProvider` in `apps/web/app/layout.tsx`; auth route at `app/(auth)/sign-in/[[...sign-in]]/page.tsx`.
 - Convex + Clerk: `ConvexProviderWithClerk` in `components/ConvexClientProvider.tsx` binds auth to data layer.
 
-## Testing Guidelines
-
-- No test runner is configured yet. When adding tests:
-  - Use Vitest + React Testing Library for UI; place files as `*.test.ts(x)` next to sources or in `__tests__/`.
-  - Add a `test` script in each package and wire Turbo (`turbo run test`).
-  - Aim for meaningful coverage on UI logic and Convex functions.
-
 ## Commit & Pull Request Guidelines
 
 - Commits: prefer Conventional Commits (e.g., `feat(web): add auth route`, `fix(ui): button aria-label`). Keep messages imperative and scoped.
