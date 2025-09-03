@@ -1,17 +1,22 @@
+"use client";
+
 import UserProfile from "../shared/UserProfile";
 import { OrgSwitcher } from "./OrgSwitcher";
-import { AcmeIcon } from "../shared/Logo";
+import AgentSwitcher from "./AgentSwitcher";
 
 export default function AppHeader() {
   return (
-    <div className="flex w-full bg-content2 py-2 px-4 justify-between items-center">
-      <div className="flex items-center gap-2">
-        <AcmeIcon />
+    <header className="w-full border-b border-default-200">
+      <div className="flex h-12 items-center justify-between px-3 sm:px-4">
+        <div className="flex items-center gap-2 sm:gap-3">
+          <OrgSwitcher />
+          <span className="text-default-300">/</span>
+          <AgentSwitcher />
+        </div>
+        <div className="flex items-center gap-2">
+          <UserProfile />
+        </div>
       </div>
-      <div className="flex items-center gap-2">
-        <OrgSwitcher />
-        <UserProfile />
-      </div>
-    </div>
+    </header>
   );
 }

@@ -32,7 +32,6 @@ import { Icon } from "@iconify/react";
 import Sidebar from "./SidebarContent";
 
 import { AcmeIcon } from "../shared/Logo";
-import { useAuth } from "@clerk/nextjs";
 
 const sidebarItems: SidebarItem[] = [
   {
@@ -115,6 +114,59 @@ const sidebarItems: SidebarItem[] = [
   },
 ];
 
+const workspaces = [
+  {
+    value: "0",
+    label: "Acme Inc.",
+    items: [
+      {
+        value: "1",
+        label: "Core workspace",
+      },
+      {
+        value: "2",
+        label: "Design workspace",
+      },
+      {
+        value: "3",
+        label: "Dev. workspace",
+      },
+      {
+        value: "4",
+        label: "Marketing workspace",
+      },
+    ],
+  },
+];
+
+const users = [
+  {
+    id: 1,
+    name: "Kate Moore",
+    role: "Customer Support",
+    team: "Customer Support",
+    avatar:
+      "https://nextuipro.nyc3.cdn.digitaloceanspaces.com/components-images/avatars/e1b8ec120710c09589a12c0004f85825.jpg",
+    email: "kate.moore@example.com",
+  },
+  {
+    id: 2,
+    name: "John Doe",
+    role: "Product Designer",
+    team: "Design",
+    avatar: "https://i.pravatar.cc/150?u=a04258114e29026708c",
+    email: "john.doe@example.com",
+  },
+  {
+    id: 3,
+    name: "Jane Doe",
+    role: "Product Manager",
+    team: "Product",
+    avatar: "https://i.pravatar.cc/150?u=a04258114e22026708c",
+    email: "jane.doe@example.com",
+  },
+];
+
 /**
  * 💡 TIP: You can use the usePathname hook from Next.js App Router to get the current pathname
  * and use it as the active key for the Sidebar component.
@@ -128,12 +180,19 @@ const sidebarItems: SidebarItem[] = [
  * <Sidebar defaultSelectedKey="home" selectedKeys={[currentPath]} />
  * ```
  */
-export default function DashboardSidebar() {
-  const { signOut } = useAuth();
-
+export default function Component() {
   return (
-    <div className="h-full min-h-192 bg-content2">
-      <div className=" relative flex h-full w-72 flex-1 flex-col px-6 pb-6">
+    <div className="h-full min-h-192">
+      <div className="relative flex h-full w-72 flex-1 flex-col p-6">
+        <div className="flex items-center justify-between">
+          <div className="flex items-center gap-2 px-2">
+            <div className="bg-foreground flex h-8 w-8 items-center justify-center rounded-full">
+              <AcmeIcon className="text-background" />
+            </div>
+            <span className="text-small font-bold uppercase">Acme</span>
+          </div>
+        </div>
+
         <ScrollShadow className="-mr-6 h-full max-h-full py-6 pr-6">
           <Sidebar
             defaultSelectedKey="home"
@@ -146,9 +205,10 @@ export default function DashboardSidebar() {
           />
         </ScrollShadow>
 
-        <div className="mt-auto w-full">
-          <Button className="w-full">Settings</Button>
-        </div>
+        <Button>
+          <Icon icon="solar:settings-linear" width={22} />
+          Settings
+        </Button>
       </div>
     </div>
   );
