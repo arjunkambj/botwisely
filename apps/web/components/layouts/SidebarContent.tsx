@@ -1,181 +1,323 @@
 "use client";
 
-import { Button } from "@heroui/button";
-import { ScrollShadow } from "@heroui/scroll-shadow";
-import { cn } from "@heroui/theme";
+import {
+  Accordion,
+  AccordionItem,
+  type ListboxProps,
+  type ListboxSectionProps,
+  type Selection,
+} from "@heroui/react";
+import React from "react";
+import { Listbox, Tooltip, ListboxItem, ListboxSection } from "@heroui/react";
 import { Icon } from "@iconify/react";
-import { useAtom } from "jotai";
-import Link from "next/link";
-import { usePathname } from "next/navigation";
-import React, { useCallback, useEffect, useMemo, useState } from "react";
+import { cn } from "@heroui/react";
 
-import { Logo } from "@/components/shared/Logo";
-import { getSidebarConfigForPath } from "@/constants/dashboard-sidebar";
-import { sidebarOpenAtom } from "../../store/atoms";
-import { FooterItems } from "./FooterItems";
-import SidebarMenu from "./SidebarMenu";
-
-interface SidebarContentProps {
-  onClose: () => void;
+export enum SidebarItemType {
+  Nest = "nest",
 }
 
-const SidebarContent = React.memo(({ onClose }: SidebarContentProps) => {
-  const [isOpen] = useAtom(sidebarOpenAtom);
-  const [mounted, setMounted] = useState(false);
-  useEffect(() => setMounted(true), []);
-  const pathname = usePathname();
+export type SidebarItem = {
+  key: string;
+  title: string;
+  icon?: string;
+  href?: string;
+  type?: SidebarItemType.Nest;
+  startContent?: React.ReactNode;
+  endContent?: React.ReactNode;
+  items?: SidebarItem[];
+  className?: string;
+};
 
-  const containerClasses = useMemo(
-    () =>
-      `relative flex h-full max-w-[280px] flex-1 flex-col bg-content2 transition-all duration-300 ease-in-out ${
-        // Use open=true before mount to avoid SSR/CSR mismatch
-        mounted && isOpen
-          ? "w-[280px] p-6 opacity-100 overflow-hidden"
-          : "w-0 p-0 opacity-0 overflow-hidden"
-      }`,
-    [isOpen, mounted]
-  );
+export type SidebarProps = Omit<ListboxProps<SidebarItem>, "children"> & {
+  items: SidebarItem[];
+  isCompact?: boolean;
+  hideEndContent?: boolean;
+  iconClassName?: string;
+  sectionClasses?: ListboxSectionProps["classNames"];
+  classNames?: ListboxProps["classNames"];
+  defaultSelectedKey: string;
+  onSelect?: (key: string) => void;
+};
 
-  const scrollShadowClasses = useMemo(
-    () =>
-      `h-full max-h-full transition-all duration-300 ${
-        (mounted && isOpen) ? "-mr-6 pr-6 opacity-100" : "opacity-0"
-      }`,
-    [isOpen, mounted]
-  );
+const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
+  (
+    {
+      items,
+      isCompact,
+      defaultSelectedKey,
+      onSelect,
+      hideEndContent,
+      sectionClasses: sectionClassesProp = {},
+      itemClasses: itemClassesProp = {},
+      iconClassName,
+      classNames,
+      className,
+      ...props
+    },
+    ref
+  ) => {
+    const [selected, setSelected] =
+      React.useState<React.Key>(defaultSelectedKey);
 
-  const handleCloseClick = useCallback(() => {
-    onClose();
-  }, [onClose]);
+    const sectionClasses = {
+      ...sectionClassesProp,
+      base: cn(sectionClassesProp?.base, "w-full", {
+        "p-0 max-w-[44px]": isCompact,
+      }),
+      group: cn(sectionClassesProp?.group, {
+        "flex flex-col gap-1": isCompact,
+      }),
+      heading: cn(sectionClassesProp?.heading, {
+        hidden: isCompact,
+      }),
+    };
 
-  const logoSection = useMemo(() => {
-    const { backButton } = getSidebarConfigForPath(pathname);
-    return (
-      <div className="flex items-center justify-between px-3 py-2 relative">
-        <div className="flex items-center gap-2">
-          <Logo />
-          {backButton?.enabled && (
-            <Link
-              aria-label={backButton.label || "Back"}
-              className={cn(
-                "hidden sm:inline-flex items-center gap-2 text-xs px-2 py-1 rounded-md",
-                "text-default-600 hover:text-default-900 hover:bg-default-200"
-              )}
-              href={backButton.href || "/"}
-              prefetch={true}
-            >
-              <Icon aria-hidden icon={backButton.icon || "solar:alt-arrow-left-linear"} width={16} />
-              <span>{backButton.label || "Back"}</span>
-            </Link>
-          )}
-        </div>
-        {/* Close button - only visible on mobile */}
-        <Button
-          isIconOnly
-          aria-label="Close sidebar"
-          className="sm:hidden absolute right-2 top-2"
-          size="sm"
-          variant="light"
-          onPress={handleCloseClick}
-        >
-          <Icon icon="solar:close-circle-bold" width={20} />
-        </Button>
-      </div>
+    const itemClasses = {
+      ...itemClassesProp,
+      base: cn(itemClassesProp?.base, {
+        "w-11 h-11 gap-0 p-0": isCompact,
+      }),
+    };
+
+    const renderNestItem = React.useCallback(
+      (item: SidebarItem) => {
+        const isNestType =
+          item.items &&
+          item.items?.length > 0 &&
+          item?.type === SidebarItemType.Nest;
+
+        if (isNestType) {
+          // Is a nest type item , so we need to remove the href
+          delete item.href;
+        }
+
+        return (
+          <ListboxItem
+            {...item}
+            key={item.key}
+            classNames={{
+              base: cn(
+                {
+                  "h-auto p-0": !isCompact && isNestType,
+                },
+                {
+                  "inline-block w-11": isCompact && isNestType,
+                }
+              ),
+            }}
+            endContent={
+              isCompact || isNestType || hideEndContent
+                ? null
+                : (item.endContent ?? null)
+            }
+            startContent={
+              isCompact || isNestType ? null : item.icon ? (
+                <Icon
+                  className={cn(
+                    "text-default-500 group-data-[selected=true]:text-foreground",
+                    iconClassName
+                  )}
+                  icon={item.icon}
+                  width={24}
+                />
+              ) : (
+                (item.startContent ?? null)
+              )
+            }
+            title={isCompact || isNestType ? null : item.title}
+          >
+            {isCompact ? (
+              <Tooltip content={item.title} placement="right">
+                <div className="flex w-full items-center justify-center">
+                  {item.icon ? (
+                    <Icon
+                      className={cn(
+                        "text-default-500 group-data-[selected=true]:text-foreground",
+                        iconClassName
+                      )}
+                      icon={item.icon}
+                      width={24}
+                    />
+                  ) : (
+                    (item.startContent ?? null)
+                  )}
+                </div>
+              </Tooltip>
+            ) : null}
+            {!isCompact && isNestType ? (
+              <Accordion className={"p-0"}>
+                <AccordionItem
+                  key={item.key}
+                  aria-label={item.title}
+                  classNames={{
+                    heading: "pr-3",
+                    trigger: "p-0",
+                    content: "py-0 pl-4",
+                  }}
+                  title={
+                    item.icon ? (
+                      <div
+                        className={"flex h-11 items-center gap-2 px-2 py-1.5"}
+                      >
+                        <Icon
+                          className={cn(
+                            "text-default-500 group-data-[selected=true]:text-foreground",
+                            iconClassName
+                          )}
+                          icon={item.icon}
+                          width={24}
+                        />
+                        <span className="text-small text-default-500 group-data-[selected=true]:text-foreground font-medium">
+                          {item.title}
+                        </span>
+                      </div>
+                    ) : (
+                      (item.startContent ?? null)
+                    )
+                  }
+                >
+                  {item.items && item.items?.length > 0 ? (
+                    <Listbox
+                      className={"mt-0.5"}
+                      classNames={{
+                        list: cn("border-l border-default-200 pl-4"),
+                      }}
+                      items={item.items}
+                      variant="flat"
+                    >
+                      {item.items.map(renderItem)}
+                    </Listbox>
+                  ) : (
+                    renderItem(item)
+                  )}
+                </AccordionItem>
+              </Accordion>
+            ) : null}
+          </ListboxItem>
+        );
+      },
+
+      [isCompact, hideEndContent, iconClassName, items]
     );
-  }, [handleCloseClick, pathname]);
 
-  const headerItemsContent = useMemo(() => {
-    const config = getSidebarConfigForPath(pathname);
-    const items = config.headerItems && config.headerItems.length > 0
-      ? config.headerItems
-      : (config.headerItem ? [config.headerItem] : []);
-    if (!items.length) return null;
+    const renderItem = React.useCallback(
+      (item: SidebarItem) => {
+        const isNestType =
+          item.items &&
+          item.items?.length > 0 &&
+          item?.type === SidebarItemType.Nest;
+
+        if (isNestType) {
+          return renderNestItem(item);
+        }
+
+        return (
+          <ListboxItem
+            {...item}
+            key={item.key}
+            endContent={
+              isCompact || hideEndContent ? null : (item.endContent ?? null)
+            }
+            startContent={
+              isCompact ? null : item.icon ? (
+                <Icon
+                  className={cn(
+                    "text-default-500 group-data-[selected=true]:text-foreground",
+                    iconClassName
+                  )}
+                  icon={item.icon}
+                  width={24}
+                />
+              ) : (
+                (item.startContent ?? null)
+              )
+            }
+            textValue={item.title}
+            title={isCompact ? null : item.title}
+          >
+            {isCompact ? (
+              <Tooltip content={item.title} placement="right">
+                <div className="flex w-full items-center justify-center">
+                  {item.icon ? (
+                    <Icon
+                      className={cn(
+                        "text-default-500 group-data-[selected=true]:text-foreground",
+                        iconClassName
+                      )}
+                      icon={item.icon}
+                      width={24}
+                    />
+                  ) : (
+                    (item.startContent ?? null)
+                  )}
+                </div>
+              </Tooltip>
+            ) : null}
+          </ListboxItem>
+        );
+      },
+
+      [isCompact, hideEndContent, iconClassName, itemClasses?.base]
+    );
+
     return (
-      <div className="flex flex-col gap-2">
-        {items.map((headerItem) => {
-          const isActive = pathname === headerItem.href;
-          return (
-            <Link
-              key={headerItem.key}
-              aria-current={isActive ? "page" : undefined}
-              className={cn(
-                "flex items-center gap-3 px-3 py-2 rounded-lg transition-all duration-200 min-h-9",
-                "no-underline w-full",
-                isActive
-                  ? "bg-primary text-white font-medium shadow-sm"
-                  : "text-default-800 hover:text-default-900 hover:bg-default-200"
-              )}
-              href={headerItem.href}
-              prefetch={true}
+      <Listbox
+        key={isCompact ? "compact" : "default"}
+        ref={ref}
+        hideSelectedIcon
+        as="nav"
+        className={cn("list-none", className)}
+        classNames={{
+          ...classNames,
+          list: cn("items-center", classNames?.list),
+        }}
+        color="default"
+        itemClasses={{
+          ...itemClasses,
+          base: cn(
+            "px-3 min-h-11 rounded-large h-[44px] data-[selected=true]:bg-default-100",
+            itemClasses?.base
+          ),
+          title: cn(
+            "text-small font-medium text-default-500 group-data-[selected=true]:text-foreground",
+            itemClasses?.title
+          ),
+        }}
+        items={items}
+        selectedKeys={[selected] as unknown as Selection}
+        selectionMode="single"
+        variant="flat"
+        onSelectionChange={(keys) => {
+          const key = Array.from(keys)[0];
+
+          setSelected(key as React.Key);
+          onSelect?.(key as string);
+        }}
+        {...props}
+      >
+        {(item) => {
+          return item.items &&
+            item.items?.length > 0 &&
+            item?.type === SidebarItemType.Nest ? (
+            renderNestItem(item)
+          ) : item.items && item.items?.length > 0 ? (
+            <ListboxSection
+              key={item.key}
+              classNames={sectionClasses}
+              showDivider={isCompact}
+              title={item.title}
             >
-              {headerItem.icon && (
-                <Icon aria-hidden className="shrink-0 transition-colors w-5 h-5" icon={headerItem.icon} />
-              )}
-              <span className="text-sm font-medium truncate">{headerItem.label}</span>
-            </Link>
+              {item.items.map(renderItem)}
+            </ListboxSection>
+          ) : (
+            renderItem(item)
           );
-        })}
-      </div>
+        }}
+      </Listbox>
     );
-  }, [pathname]);
+  }
+);
 
-  const sidebarMenuContent = useMemo(() => {
-    const config = getSidebarConfigForPath(pathname);
-    // If categories are provided, render grouped; otherwise, support a flat list of items
-    if (config.categories && config.categories.length > 0) {
-      return (
-        <SidebarMenu
-          items={config.categories.map((section) => ({
-            key: section.label.toLowerCase().replace(/\s+/g, "-"),
-            title: section.label,
-            icon: section.icon,
-            isCategoryOpen: section.isCategoryOpen !== false,
-            items: section.items.map((item) => ({
-              key: item.key,
-              title: item.label,
-              icon: item.icon,
-              href: item.href,
-            })),
-          }))}
-        />
-      );
-    }
-    // Flat list fallback
-    const flatItems = (config.items || []).map((item) => ({
-      key: item.key,
-      title: item.label,
-      icon: item.icon,
-      href: item.href,
-    }));
-    return <SidebarMenu items={flatItems} />;
-  }, [pathname]);
+Sidebar.displayName = "Sidebar";
 
-  const footerItemsContent = useMemo(() => {
-    const { footerItems } = getSidebarConfigForPath(pathname);
-    return <FooterItems items={footerItems} />;
-  }, [pathname]);
-
-  return (
-    <div className={containerClasses}>
-      {/* Logo and Close Button */}
-      <div className="mb-6">{logoSection}</div>
-
-      {/* Header Items (e.g., Overview, Agents) */}
-      <div className="mb-4">{headerItemsContent}</div>
-
-      {/* Main Navigation */}
-      <div className="flex-1 min-h-0">
-        <ScrollShadow className={scrollShadowClasses}>
-          {sidebarMenuContent}
-        </ScrollShadow>
-      </div>
-
-      {/* Footer Items */}
-      <div className="mt-auto pt-4">{footerItemsContent}</div>
-    </div>
-  );
-});
-
-SidebarContent.displayName = "SidebarContent";
-
-export default SidebarContent;
+export default Sidebar;

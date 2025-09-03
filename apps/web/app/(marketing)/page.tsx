@@ -6,6 +6,7 @@ import { WhyChooseUs } from "@/components/marketing/WhyChooseUs";
 import { CTA } from "@/components/marketing/CTA";
 import { FAQ } from "@/components/marketing/FAQ";
 import { Footer } from "@/components/marketing/Footer";
+import { Showcase } from "@/components/marketing/Showcase";
 
 export default function Home() {
   return (
@@ -14,6 +15,7 @@ export default function Home() {
       <Hero />
       <Features />
       <WhyChooseUs />
+      <Showcase />
       <Testimonials />
       <FAQ />
       <CTA />

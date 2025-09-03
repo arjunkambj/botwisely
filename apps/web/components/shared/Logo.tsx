@@ -1,54 +1,29 @@
 "use client";
+
+import type { SVGProps } from "react";
 import React from "react";
-import Link from "next/link";
+export type IconSvgProps = SVGProps<SVGSVGElement> & {
+  size?: number;
+};
 
-interface LogoProps {
-  variant?: "full" | "icon";
-  size?: "sm" | "md" | "lg";
-  spacing?: "sm" | "md" | "lg";
-  className?: string;
-}
-
-// Reserved for future image-based logo sizing
-// const SIZES = {
-//   sm: { full: { width: 100, height: 30 }, icon: { width: 30, height: 30 } },
-//   md: { full: { width: 120, height: 36 }, icon: { width: 36, height: 36 } },
-//   lg: { full: { width: 150, height: 45 }, icon: { width: 45, height: 45 } },
-// } as const;
-
-const TEXT_SIZES = {
-  sm: "text-lg",
-  md: "text-xl",
-  lg: "text-2xl",
-} as const;
-
-const SPACING = {
-  sm: "gap-1",
-  md: "gap-2",
-  lg: "gap-3",
-} as const;
-
-export function Logo({
-  variant = "full",
-  size = "md",
-  spacing = "md",
-  className = "",
-}: LogoProps) {
-  // const { width, height } = SIZES[size][variant];
-
-  return (
-    <div className={`inline-flex items-center ${className}`}>
-      {variant === "full" && (
-        <Link href="/">
-          <div className={`flex items-center ${SPACING[spacing]}`}>
-            <span
-              className={`font-semibold text-foreground ${TEXT_SIZES[size]}`}
-            >
-              Acme
-            </span>
-          </div>
-        </Link>
-      )}
-    </div>
-  );
-}
+export const AcmeIcon: React.FC<IconSvgProps> = ({
+  size = 32,
+  width,
+  height,
+  ...props
+}) => (
+  <svg
+    fill="none"
+    height={size || height}
+    viewBox="0 0 32 32"
+    width={size || width}
+    {...props}
+  >
+    <path
+      clipRule="evenodd"
+      d="M17.6482 10.1305L15.8785 7.02583L7.02979 22.5499H10.5278L17.6482 10.1305ZM19.8798 14.0457L18.11 17.1983L19.394 19.4511H16.8453L15.1056 22.5499H24.7272L19.8798 14.0457Z"
+      fill="currentColor"
+      fillRule="evenodd"
+    />
+  </svg>
+);

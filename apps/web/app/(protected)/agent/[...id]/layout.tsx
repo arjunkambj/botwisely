@@ -1,6 +1,6 @@
 import Sidebar from "@/components/layouts/DashboardSidebar";
 
-export default function AgentLayout({
+export default function DashboardLayout({
   children,
 }: {
   children: React.ReactNode;
@@ -10,7 +10,7 @@ export default function AgentLayout({
       <aside className="h-full">
         <Sidebar />
       </aside>
-      <main className="h-full w-full bg-content2 py-1">
+      <main className="h-full w-full bg-content2 py-2">
         <section className="flex-1 bg-content1 rounded-l-2xl p-4 h-full w-full">
           {children}
         </section>
