@@ -111,8 +111,13 @@ const SidebarMenu = ({ items, className }: SidebarMenuProps) => {
     [renderMenuItem],
   );
 
-  const accordionContent = useMemo(
-    () => (
+  const isFlat = useMemo(() => items.every((i) => !i.items || i.items.length === 0), [items]);
+
+  const content = useMemo(() => {
+    if (isFlat) {
+      return <div className="space-y-1">{items.map(renderMenuItem)}</div>;
+    }
+    return (
       <Accordion
         className="px-0 gap-4"
         defaultExpandedKeys={defaultExpandedKeys}
@@ -121,11 +126,10 @@ const SidebarMenu = ({ items, className }: SidebarMenuProps) => {
       >
         {items.map(renderCategory)}
       </Accordion>
-    ),
-    [defaultExpandedKeys, items, renderCategory],
-  );
+    );
+  }, [defaultExpandedKeys, isFlat, items, renderCategory, renderMenuItem]);
 
-  return <nav className={cn("w-full", className)}>{accordionContent}</nav>;
+  return <nav className={cn("w-full", className)}>{content}</nav>;
 };
 
 export default SidebarMenu;

@@ -6,16 +6,16 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { useCallback, useMemo } from "react";
 
-import { footerItems } from "../../constants/dashboard-sidebar";
+import type { SidebarLinkItem } from "@/constants/dashboard-sidebar";
 
-export const FooterItems = () => {
+export const FooterItems = ({ items = [] as SidebarLinkItem[] }: { items?: SidebarLinkItem[] }) => {
   const pathname = usePathname();
 
   const isActive = useCallback((href: string) => pathname === href, [pathname]);
 
   const footerItemsContent = useMemo(
     () =>
-      footerItems.map((item) => (
+      items.map((item) => (
         <Link
           key={item.key}
           aria-current={isActive(item.href || "") ? "page" : undefined}
@@ -39,7 +39,7 @@ export const FooterItems = () => {
           <span className="text-sm font-medium">{item.label}</span>
         </Link>
       )),
-    [isActive]
+    [isActive, items]
   );
 
   return (

@@ -17,13 +17,13 @@ import { useUser } from "@clerk/nextjs";
 const navigationItems = [
   {
     key: "settings",
-    href: "/settings/general",
+    href: "/settings",
     icon: "solar:settings-linear",
     label: "Settings",
   },
   {
     key: "billing",
-    href: "/settings/billing-invoices",
+    href: "/settings/billing",
     icon: "solar:card-linear",
     label: "Billing",
   },
