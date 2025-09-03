@@ -6,10 +6,9 @@ Top-Level (Org scope, Dashboard)
 - Agents: List, search, create/import, duplicate/archive.
 - Usage: Token/cost usage across org (by bot, by period).
 - Members: Invite/manage users, roles, pending invites.
-- Billing: Plan, invoices, payment method, limits.
-- API Keys: Create/revoke, scopes, last used.
-- Settings: Org profile, domains, security, webhooks.
+- Settings: Org profile, domains, security, webhooks, tabs for Billing and API Keys.
 - Integrations: Slack, Intercom, Zendesk, etc.
+ - Integrations: Slack, Discord, Zapier (future), webhooks.
 
 Agent-Level (when an agent is selected)
 
@@ -20,7 +19,7 @@ Agent-Level (when an agent is selected)
 - Analytics: Chats, Top queries, Response quality, CSAT.
 - Activity: Chat logs, filters, export, feedback flags.
 - Connect & Embed: Web widget, script tag, channels, SDKs.
-- Settings: General, Model & Context, Tools, Notifications, Access.
+- Settings (tabbed): General, Model & Context, Tools, Notifications, Access, API Keys.
 
 Header Bar
 

@@ -24,11 +24,11 @@ Pipeline Stages
 3) Chunk: split into token-aware chunks; capture overlap for coherence.
 4) Embed: create vectors per chunk with `textEmbeddingModel` (per convex_docs/context.mdx).
 5) Index: write embeddings via agent vector index; link back to chunks/docs.
-6) Validate: mark ingestionJobs as succeeded/failed; report stats to UI.
+6) Validate: mark jobs as succeeded/failed; report stats to UI.
 
 Reliability (convex_docs/workflows.mdx, action_retriver.mdx)
 
-- Use Workflow component to orchestrate multi-step ingestion with retries & idempotency.
+- Use Jobs (jobs/ingestion.workflow.ts) to orchestrate multi-step ingestion with retries & idempotency.
 - Use Action Retrier for flaky external fetch/parsers.
 - Cap concurrency with Workpool for spiky jobs.
 
@@ -36,7 +36,7 @@ Data Model
 
 - sources → websiteSources/fileSources/textSources/qnaSources
 - documents → chunks → vectorIndex (embeddingId)
-- ingestionJobs track each stage; UI subscribes for progress.
+- jobs table tracks each stage; UI subscribes for progress.
 
 UI Mapping
 
@@ -96,3 +96,8 @@ Free-tier services to start fast
 - Firecrawl (web, optional): free plan to handle JS-heavy sites; use when Exa struggles.
 - LlamaParse (PDF, chosen): small free quota; use for complex PDFs and tables only.
 - Self-hosted Apache Tika: free, one container, covers many file types without per-doc costs.
+
+Folder Mapping (Convex)
+
+- actions/: crawl.exa.ts, parse.docs.ts, embed.ts, indexVector.ts (side-effectful steps).
+- jobs/: ingestion.workflow.ts orchestrates crawl → parse → chunk → embed → index; jobs.ts tracks status.

@@ -9,6 +9,9 @@ Botwisely Docs Index
 - analytics-billing.md: Usage, analytics, billing.
 - org.md: Organizations, members, settings.
 - roadmap.md: Phased implementation plan.
+- context-structure.md: Contexts, layers, and code organization (actions, analyze, core, utils/helpers).
+- convex-structure.md: apps/convex/convex folder layout, modules, helpers, patterns.
+- integrations.md: Future Slack/Discord/Zapier structure and security.
 
 Conventions
 

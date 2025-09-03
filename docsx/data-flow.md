@@ -22,11 +22,12 @@ Reads
 - Action generate: streamText/save deltas with `{ saveStreamDeltas: true }`.
 - Query messages: subscribe to thread messages and deltas for live updates.
 
- Ingestion Lifecycle (Sources)
+Ingestion Lifecycle (Sources)
 
 - Mutation create/update source config (website/files/text/qna).
 - Action/workflow schedules jobs: crawl → extract → chunk → embed → index.
 - Website crawl: Exa API (chosen vendor). Docs parsing: LlamaIndex (LlamaParse) for complex documents; cheap-first local/Tika fallback.
+- Retrieval: Use RAG component for semantic search where appropriate (see convex_docs/rag.mdx) and Agent component for messaging and tool calls (see convex_docs/agent.mdx).
 - Progress persisted in `ingestionJobs` and `documents`; UI subscribes to status.
 
  Usage Tracking & Billing (per convex_docs/usage-tracking.mdx)
