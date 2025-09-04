@@ -1,5 +1,5 @@
 {
-  "name": "convex",
+  "name": "convex-app",
   "module": "index.ts",
   "type": "module",
   "private": true,
@@ -16,6 +16,13 @@
     "typescript": "^5"
   },
   "dependencies": {
-    "convex": "^1.26.2"
+    "@ai-sdk/openai": "^2.0.23",
+    "@convex-dev/agent": "^0.2.7",
+    "@convex-dev/rag": "^0.5.2",
+    "@convex-dev/workpool": "^0.2.18",
+    "convex": "^1.26.2",
+    "convex-helpers": "^0.1.104",
+    "exa-js": "^1.9.3",
+    "llamaindex": "^0.11.28"
   }
 }

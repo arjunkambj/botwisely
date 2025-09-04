@@ -1,52 +1,53 @@
-// Image placeholder only; no external images
+// No external images; placeholders only
 
 const items = [
   {
     title: "Production-grade",
     desc: "Battle-tested patterns for auth, data, and deployments.",
-    img: "https://placehold.co/640x400/png?text=Reliable",
+    color: "",
   },
   {
     title: "DX your team loves",
     desc: "Opinionated configs, shared UI, and strict TypeScript.",
-    img: "https://placehold.co/640x400/png?text=Developer+Experience",
+    color: "",
   },
   {
     title: "Performance first",
     desc: "Server-first rendering and carefully optimized client leaves.",
-    img: "https://placehold.co/640x400/png?text=Performance",
+    color: "",
+  },
+  {
+    title: "Secure by default",
+    desc: "Clerk-backed auth and per-tenant isolation patterns.",
+    color: "",
   },
 ];
 
+import { FadeIn } from "./motion";
+
 export const WhyChooseUs = () => {
   return (
-    <section className="w-full px-4 py-16 sm:px-6 lg:px-8">
+    <section id="why-choose-us" className="w-full scroll-mt-24 lg:scroll-mt-28 px-4 py-20 md:py-24 sm:px-6 lg:px-8">
       <div className="mx-auto max-w-6xl">
         <header className="mb-10">
-          <h2 className="text-3xl font-semibold sm:text-4xl">Why choose us</h2>
+          <h2 className="text-3xl font-semibold sm:text-4xl leading-[1.15]">Why choose us</h2>
           <p className="mt-2 max-w-prose text-default-600">
             We sweat the details so you can focus on outcomes: clear patterns,
             fast defaults, and delightful product quality.
           </p>
         </header>
-        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {items.map((it) => (
-            <article
-              key={it.title}
-              className="rounded-xl border border-divider bg-content1 p-4"
-            >
-              <div className="relative mb-4 aspect-[16/10] w-full overflow-hidden rounded-lg bg-content2">
-                <div
-                  aria-hidden
-                  className="absolute inset-0 bg-[repeating-linear-gradient(45deg,hsl(var(--heroui-default-200)/.6)_0_10px,transparent_10px_20px)]"
-                />
-                <div className="relative z-10 grid h-full place-items-center">
-                  <span className="text-[10px] text-default-500">Placeholder</span>
+        <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
+          {items.map((it, idx) => (
+            <FadeIn key={it.title} delay={idx * 0.08} className="rounded-xl border border-divider bg-content1 p-6">
+              <div className="mb-4 flex items-center gap-3">
+                <div className="grid h-10 w-10 place-items-center rounded-full bg-default-100 ring-1 ring-divider">
+                  <span className="text-default-600">?</span>
                 </div>
+                <h3 className="text-lg font-semibold">{it.title}</h3>
               </div>
-              <h3 className="mb-1 text-lg font-semibold">{it.title}</h3>
-              <p className="text-sm text-default-600">{it.desc}</p>
-            </article>
+              <div className="h-3 w-24 rounded bg-default-200" />
+              <p className="mt-2 text-sm text-default-600">{it.desc}</p>
+            </FadeIn>
           ))}
         </div>
       </div>

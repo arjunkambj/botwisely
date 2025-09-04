@@ -27,7 +27,7 @@ export const f = query({
 });
 ```
 
-### Http endpoint syntax
+### HTTP endpoint syntax
 
 - HTTP endpoints are defined in `convex/http.ts` and require an `httpAction` decorator. For example:
 
@@ -208,7 +208,7 @@ Note: `paginationOpts` is an object with the following properties:
 - Always include all index fields in the index name. For example, if an index is defined as `["field1", "field2"]`, the index name should be "by_field1_and_field2".
 - Index fields must be queried in the same order they are defined. If you want to be able to query by "field1" then "field2" and by "field2" then "field1", you must create separate indexes.
 
-## Typescript guidelines
+## TypeScript guidelines
 
 - You can use the helper typescript type `Id` imported from './\_generated/dataModel' to get the type of the id for a given table. For example if there is a table called 'users' you can use `Id<'users'>` to get the type of the id for that table.
 - If you need to define a `Record` make sure that you correctly provide the type of the key and value in the type. For example a validator `v.record(v.id('users'), v.string())` would have the type `Record<Id<'users'>, string>`. Below is an example of using `Record` with an `Id` type in a query:
@@ -239,6 +239,33 @@ export const exampleQuery = query({
 - When using the `Array` type, make sure to always define your arrays as `const array: Array<T> = [...];`
 - When using the `Record` type, make sure to always define your records as `const record: Record<KeyType, ValueType> = {...};`
 - Always add `@types/node` to your `package.json` when using any Node.js built-in modules.
+
+## Components and dependencies
+
+- When using Convex Components (e.g., `@convex-dev/agent`, `@convex-dev/rag`), ensure the Convex version in `apps/convex` supports components.
+- Install packages from the `apps/convex` workspace using Bun; do not hand‑edit package.json:
+  - `cd apps/convex && bun add @convex-dev/agent @convex-dev/rag @ai-sdk/openai`
+- Add components in `convex/convex.config.ts` only when ready:
+  ```ts
+  import { defineApp } from "convex/server";
+  import rag from "@convex-dev/rag/convex.config";
+  import agent from "@convex-dev/agent/convex.config";
+  const app = defineApp();
+  app.use(rag);
+  app.use(agent);
+  export default app;
+  ```
+- If `convex dev` shows `Could not resolve "convex/server"`, verify `convex` is installed in `apps/convex` and restart. Keep component imports commented out until it resolves.
+
+## Environment variables
+
+- Set server secrets in the Convex dashboard: e.g., `OPENAI_API_KEY`, `EXA_API_KEY`.
+- Access via `process.env` only inside Convex functions.
+
+## Vector search and actions
+
+- Run vector search inside `action`s. Wrap external network calls inside actions as well.
+- Use HTTP actions for webhooks and small public endpoints in `convex/http.ts`.
 
 ## Full text search guidelines
 
@@ -326,9 +353,7 @@ export default crons;
 
 - Convex includes file storage for large files like images, videos, and PDFs.
 - The `ctx.storage.getUrl()` method returns a signed URL for a given file. It returns `null` if the file doesn't exist.
-- Do NOT use the deprecated `ctx.storage.getMetadata` call for loading a file's metadata.
-
-                    Instead, query the `_storage` system table. For example, you can use `ctx.db.system.get` to get an `Id<"_storage">`.
+- Do NOT use the deprecated `ctx.storage.getMetadata` call for loading a file's metadata. Instead, query the `_storage` system table, e.g. `ctx.db.system.get(args.fileId)` with `Id<"_storage">`.
 
 ```
 import { query } from "./_generated/server";

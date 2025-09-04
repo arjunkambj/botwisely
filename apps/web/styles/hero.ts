@@ -5,20 +5,20 @@ const heroConfig = heroui({
   themes: {
     light: {
       colors: {
-        // Tailwind Neutral (replaces zinc)
+        // Tailwind Zinc (neutral base)
         default: {
           50: "#fafafa",
-          100: "#f5f5f5",
-          200: "#e5e5e5",
-          300: "#d4d4d4",
-          400: "#a3a3a3",
-          500: "#737373",
-          600: "#525252",
-          700: "#404040",
-          800: "#262626",
-          900: "#171717",
-          foreground: "#000",
-          DEFAULT: "#d4d4d4",
+          100: "#f4f4f5",
+          200: "#e4e4e7",
+          300: "#d4d4d8",
+          400: "#a1a1aa",
+          500: "#71717a",
+          600: "#52525b",
+          700: "#3f3f46",
+          800: "#27272a",
+          900: "#18181b",
+          foreground: "#000000",
+          DEFAULT: "#d4d4d8",
         },
         // Tailwind Blue
         primary: {
@@ -93,21 +93,22 @@ const heroConfig = heroui({
         },
         background: "#ffffff",
         foreground: "#000000",
+        // Surface tokens aligned to zinc scale for clearer separation
         content1: {
           DEFAULT: "#ffffff",
-          foreground: "#000",
+          foreground: "#000000",
         },
         content2: {
-          DEFAULT: "#f5f5f5",
-          foreground: "#000",
+          DEFAULT: "#f4f4f5", // zinc-100
+          foreground: "#000000",
         },
         content3: {
-          DEFAULT: "#e5e5e5",
-          foreground: "#000",
+          DEFAULT: "#e4e4e7", // zinc-200
+          foreground: "#000000",
         },
         content4: {
-          DEFAULT: "#d4d4d4",
-          foreground: "#000",
+          DEFAULT: "#d4d4d8", // zinc-300
+          foreground: "#000000",
         },
         focus: "#3b82f6",
         overlay: "#000000",
@@ -115,20 +116,20 @@ const heroConfig = heroui({
     },
     dark: {
       colors: {
-        // Tailwind Neutral inverted for dark
+        // Tailwind Zinc inverted for dark
         default: {
-          50: "#0a0a0a",
-          100: "#171717",
-          200: "#262626",
-          300: "#404040",
-          400: "#525252",
-          500: "#737373",
-          600: "#a3a3a3",
-          700: "#d4d4d4",
-          800: "#e5e5e5",
+          50: "#09090b",
+          100: "#18181b",
+          200: "#27272a",
+          300: "#3f3f46",
+          400: "#52525b",
+          500: "#71717a",
+          600: "#a1a1aa",
+          700: "#d4d4d8",
+          800: "#e4e4e7",
           900: "#fafafa",
-          foreground: "#fff",
-          DEFAULT: "#525252",
+          foreground: "#ffffff",
+          DEFAULT: "#3f3f46",
         },
         // Tailwind Blue inverted for dark
         primary: {
@@ -142,7 +143,7 @@ const heroConfig = heroui({
           700: "#bfdbfe",
           800: "#dbeafe",
           900: "#eff6ff",
-          foreground: "#fff",
+          foreground: "#ffffff",
           DEFAULT: "#3b82f6",
         },
         secondary: {
@@ -156,7 +157,7 @@ const heroConfig = heroui({
           700: "#bf99e5",
           800: "#d7bfef",
           900: "#eee4f8",
-          foreground: "#fff",
+          foreground: "#ffffff",
           DEFAULT: "#7828c8",
         },
         success: {
@@ -170,7 +171,7 @@ const heroConfig = heroui({
           700: "#91e5b5",
           800: "#b9efd1",
           900: "#e2f8ec",
-          foreground: "#000",
+          foreground: "#000000",
           DEFAULT: "#17c964",
         },
         warning: {
@@ -184,7 +185,7 @@ const heroConfig = heroui({
           700: "#fad497",
           800: "#fce4bd",
           900: "#fef4e4",
-          foreground: "#000",
+          foreground: "#000000",
           DEFAULT: "#f5a524",
         },
         danger: {
@@ -198,26 +199,26 @@ const heroConfig = heroui({
           700: "#f98eb3",
           800: "#fbb8cf",
           900: "#fee1eb",
-          foreground: "#000",
+          foreground: "#000000",
           DEFAULT: "#f31260",
         },
         background: "#000000",
         foreground: "#ffffff",
         content1: {
-          DEFAULT: "#171717",
-          foreground: "#fff",
+          DEFAULT: "#18181b", // zinc-100 (dark base surface)
+          foreground: "#ffffff",
         },
         content2: {
-          DEFAULT: "#262626",
-          foreground: "#fff",
+          DEFAULT: "#27272a", // zinc-200
+          foreground: "#ffffff",
         },
         content3: {
-          DEFAULT: "#404040",
-          foreground: "#fff",
+          DEFAULT: "#3f3f46", // zinc-300
+          foreground: "#ffffff",
         },
         content4: {
-          DEFAULT: "#525252",
-          foreground: "#fff",
+          DEFAULT: "#52525b", // zinc-400
+          foreground: "#ffffff",
         },
         focus: "#3b82f6",
         overlay: "#ffffff",

@@ -75,12 +75,11 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
     const itemClasses = {
       ...itemClassesProp,
       base: cn(itemClassesProp?.base, {
-        "w-11 h-11 gap-0 p-0": isCompact,
+        "w-10 h-10 gap-0 p-0": isCompact,
       }),
     };
 
-    const renderNestItem = React.useCallback(
-      (item: SidebarItem) => {
+    const renderNestItem = (item: SidebarItem) => {
         const isNestType =
           item.items &&
           item.items?.length > 0 &&
@@ -114,11 +113,11 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
               isCompact || isNestType ? null : item.icon ? (
                 <Icon
                   className={cn(
-                    "text-default-500 group-data-[selected=true]:text-foreground",
+                    "text-default-600 group-data-[selected=true]:text-primary-foreground",
                     iconClassName
                   )}
                   icon={item.icon}
-                  width={24}
+                  width={20}
                 />
               ) : (
                 (item.startContent ?? null)
@@ -132,11 +131,11 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
                   {item.icon ? (
                     <Icon
                       className={cn(
-                        "text-default-500 group-data-[selected=true]:text-foreground",
+                        "text-default-600 group-data-[selected=true]:text-primary-foreground",
                         iconClassName
                       )}
                       icon={item.icon}
-                      width={24}
+                      width={20}
                     />
                   ) : (
                     (item.startContent ?? null)
@@ -157,17 +156,17 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
                   title={
                     item.icon ? (
                       <div
-                        className={"flex h-11 items-center gap-2 px-2 py-1.5"}
+                        className={"flex h-10 items-center gap-2 px-2 py-1.5"}
                       >
                         <Icon
                           className={cn(
-                            "text-default-500 group-data-[selected=true]:text-foreground",
+                            "text-default-600 group-data-[selected=true]:text-primary-foreground",
                             iconClassName
                           )}
                           icon={item.icon}
-                          width={24}
+                          width={20}
                         />
-                        <span className="text-small text-default-500 group-data-[selected=true]:text-foreground font-medium">
+                        <span className="text-small text-default-600 group-data-[selected=true]:text-primary-foreground font-medium">
                           {item.title}
                         </span>
                       </div>
@@ -185,7 +184,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
                       items={item.items}
                       variant="flat"
                     >
-                      {item.items.map(renderItem)}
+                      {renderItem}
                     </Listbox>
                   ) : (
                     renderItem(item)
@@ -195,13 +194,9 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
             ) : null}
           </ListboxItem>
         );
-      },
+      };
 
-      [isCompact, hideEndContent, iconClassName, items]
-    );
-
-    const renderItem = React.useCallback(
-      (item: SidebarItem) => {
+    const renderItem = (item: SidebarItem) => {
         const isNestType =
           item.items &&
           item.items?.length > 0 &&
@@ -222,11 +217,11 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
               isCompact ? null : item.icon ? (
                 <Icon
                   className={cn(
-                    "text-default-500 group-data-[selected=true]:text-foreground",
+                    "text-default-600 group-data-[selected=true]:text-primary-foreground",
                     iconClassName
                   )}
                   icon={item.icon}
-                  width={24}
+                  width={20}
                 />
               ) : (
                 (item.startContent ?? null)
@@ -241,11 +236,11 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
                   {item.icon ? (
                     <Icon
                       className={cn(
-                        "text-default-500 group-data-[selected=true]:text-foreground",
+                        "text-default-600 group-data-[selected=true]:text-primary-foreground",
                         iconClassName
                       )}
                       icon={item.icon}
-                      width={24}
+                      width={20}
                     />
                   ) : (
                     (item.startContent ?? null)
@@ -255,10 +250,7 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
             ) : null}
           </ListboxItem>
         );
-      },
-
-      [isCompact, hideEndContent, iconClassName, itemClasses?.base]
-    );
+      };
 
     return (
       <Listbox
@@ -275,11 +267,11 @@ const Sidebar = React.forwardRef<HTMLElement, SidebarProps>(
         itemClasses={{
           ...itemClasses,
           base: cn(
-            "px-3 min-h-11 rounded-large h-[44px] data-[selected=true]:bg-default-100",
+            "px-3 min-h-10 rounded-large h-10 data-[selected=true]:bg-default-100",
             itemClasses?.base
           ),
           title: cn(
-            "text-small font-medium text-default-500 group-data-[selected=true]:text-foreground",
+            "text-small font-medium text-default-600 group-data-[selected=true]:text-primary-foreground",
             itemClasses?.title
           ),
         }}

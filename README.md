@@ -23,7 +23,7 @@ bun install
 ## Development
 
 - All apps: `bun run dev`
-- Single app: `bun run dev --filter=web` or `--filter=convex`
+- Single app: `bun run dev --filter=web` or `--filter=convex-app`
 - Lint: `bun run lint` • Type-check: `bun run check-types` • Format: `bun run format`
 
 ## Build & Run
@@ -31,7 +31,7 @@ bun install
 - Build all: `bun run build`
 - Build one: `bun run build --filter=web`
 - Start web (after build): `bun --filter=web run start`
-- Convex backend (dev): `bun --filter=convex run dev`
+- Convex backend (dev): `bun --filter=convex-app run dev`
 
 ## Environment Variables
 
@@ -62,6 +62,6 @@ Create `.env.local` in each app:
 ## Convex Integration
 
 - Client is configured in `apps/web/components/ConvexClientProvider.tsx` using `ConvexProviderWithClerk`.
-- Ensure `NEXT_PUBLIC_CONVEX_URL` points to your deployment; run backend locally with `bun --filter=convex run dev`.
+- Ensure `NEXT_PUBLIC_CONVEX_URL` points to your deployment; run backend locally with `bun --filter=convex-app run dev`.
 
 For contribution guidelines, see AGENTS.md.

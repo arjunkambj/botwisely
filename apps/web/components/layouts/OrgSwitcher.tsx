@@ -40,15 +40,22 @@ export const OrgSwitcher = () => {
       className="max-w-xs"
       classNames={{
         trigger:
-          "h-8 min-h-8 px-2 rounded-medium bg-default-100 data-[hover=true]:bg-default-200 border-none",
-        value: "text-small",
+          "h-8 min-h-8 px-2 rounded-medium bg-default-100 data-[hover=true]:bg-default-200 border-none focus:outline-none data-[focus=true]:ring-1 data-[focus=true]:ring-default-300",
+        value: "text-small text-default-700",
+        selectorIcon: "text-default-600",
       }}
       defaultSelectedKeys={["1"]}
       items={workspaces}
       listboxProps={{
+        itemClasses: {
+          base: "min-h-10 h-10",
+          title: "text-small text-default-700",
+        },
         bottomContent: (
           <Button
-            className="bg-default-100 text-foreground text-center"
+            className="w-full"
+            variant="flat"
+            color="default"
             size="sm"
             onPress={() => console.log("on create workspace")}
           >
@@ -67,13 +74,13 @@ export const OrgSwitcher = () => {
           </div>
         ));
       }}
-      selectorIcon={<Icon className="text-default-500" width={16} icon="lucide:chevrons-up-down" />}
+      selectorIcon={<Icon className="text-default-600" width={16} icon="lucide:chevrons-up-down" />}
       startContent={
-        <div className="border-small border-default-300 relative h-6 w-6 flex-none rounded-full bg-default-100">
+        <div className="border-small border-default-200 relative h-6 w-6 flex-none rounded-full bg-default-100">
           <Icon
-            className="text-default-500 absolute left-1.5 top-1.5"
+            className="text-default-600 absolute left-1.5 top-1.5"
             icon="solar:users-group-rounded-linear"
-            width={14}
+            width={16}
           />
         </div>
       }
@@ -86,14 +93,19 @@ export const OrgSwitcher = () => {
           aria-label={section.label}
           items={section.items}
           title={section.label}
-        >
-          {/* @ts-ignore */}
-          {(item) => (
+          classNames={{
+            base: "px-1",
+            heading:
+              "px-2 py-1 text-tiny uppercase tracking-wide text-default-400",
+            group: "gap-1",
+          }}
+      >
+        {(item) => (
             <SelectItem key={item.value} aria-label={item.label} textValue={item.label}>
               <div className="flex flex-row items-center justify-between gap-2">
-                <span className="text-small">{item.label}</span>
-                <div className="border-small border-default-300 flex h-6 w-6 items-center justify-center rounded-full">
-                  <Icon className="text-default-500" icon="solar:users-group-rounded-linear" width={16} />
+                <span className="text-small text-default-700">{item.label}</span>
+                <div className="border-small border-default-200 flex h-6 w-6 items-center justify-center rounded-full bg-default-100">
+                  <Icon className="text-default-600" icon="solar:users-group-rounded-linear" width={16} />
                 </div>
               </div>
             </SelectItem>

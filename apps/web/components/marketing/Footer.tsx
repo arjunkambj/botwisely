@@ -1,4 +1,4 @@
-import Link from "next/link";
+import NextLink from "next/link";
 import { Icon } from "@iconify/react";
 
 const links = [
@@ -15,19 +15,23 @@ export const Footer = () => {
           <div className="text-sm text-default-600">© {new Date().getFullYear()} Acme</div>
           <nav className="flex items-center gap-5">
             {links.map((l) => (
-              <Link key={l.href} href={l.href} className="text-sm text-default-700 hover:underline">
+              <NextLink
+                key={l.href}
+                href={l.href}
+                className="text-sm text-default-700 rounded-md px-1 -mx-1 focus:outline-none focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2"
+              >
                 {l.label}
-              </Link>
+              </NextLink>
             ))}
           </nav>
           <div className="flex items-center gap-3">
-            <a aria-label="X" href="#" className="text-default-600 hover:text-foreground">
+            <a aria-label="X" href="#" className="text-default-600 hover:text-foreground rounded-md focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
               <Icon icon="mdi:twitter" className="h-5 w-5" />
             </a>
-            <a aria-label="GitHub" href="#" className="text-default-600 hover:text-foreground">
+            <a aria-label="GitHub" href="#" className="text-default-600 hover:text-foreground rounded-md focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
               <Icon icon="mdi:github" className="h-5 w-5" />
             </a>
-            <a aria-label="LinkedIn" href="#" className="text-default-600 hover:text-foreground">
+            <a aria-label="LinkedIn" href="#" className="text-default-600 hover:text-foreground rounded-md focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2">
               <Icon icon="mdi:linkedin" className="h-5 w-5" />
             </a>
           </div>
